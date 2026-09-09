@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: trajectoryfit
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/trajectoryfit}
+    username: ${DB_USER:trajectoryfit}
+    password: ${DB_PASSWORD:trajectoryfit}
+  jpa:
+    hibernate:
+      # Schema is owned by db/schema.sql (applied via docker-compose or psql), not Hibernate.
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  port: ${PORT:8080}
+
+# Every scoring threshold is externally configurable; these mirror RiskConfig.defaults().
+# Uncomment and adjust to re-tune without touching code, e.g. as GLP-1 literature firms up.
+trajectoryfit:
+  risk:
+    weight-rate-threshold-pct: 1.0
+    weight-risk-slope: 40.0
+    weight-risk-cap: 40.0
+    protein-target-low-g-per-kg: 1.2
+    protein-target-high-g-per-kg: 1.6
+    training-sessions-good: 2
+    biggest-driver-min-points: 10.0
+    partial-data-min-points: 9
+    sustained-risk-weeks: 3
+    sustained-risk-score: 50
